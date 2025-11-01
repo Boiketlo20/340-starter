@@ -40,7 +40,7 @@ nav ul{
 }
 
 nav ul li{
-  color: white;
+  color: #FFCCD5;
   font-size: large;
 }
 
@@ -59,13 +59,13 @@ img {
   position: absolute;
   top: 20px;
   background-color: rgba(255, 255, 255, 0.5) ;
-  color: blue;
+  color: #590d22;
   padding: 5px ;
 }
 
 button{
-  background-color: blue;
-  color: black;
+  background-color: #590d22;
+  color: white;
   padding: 5px;
 }
 
@@ -77,14 +77,9 @@ button{
 
 /*Upgrades Styling*/
 figure img{
-  background-color: blue;
+  background-color: #c9184a;
   padding: 20px;
   border: 1px black solid;
-}
-
-figcaption{
-  color: blue;
-  text-decoration: underline;
 }
 
 .upgrade-opt{
@@ -96,7 +91,7 @@ figcaption{
 @media screen and (min-width : 1025px){
   body{
     max-width: 1085px;
-    border: 5px blue solid;
+    border: 5px #590d22 solid;
     padding: 10px;
     margin: 0 auto;
   }
