@@ -23,6 +23,10 @@ app.set("layout", "./layouts/layout") //says when the express ejs layout goes lo
  * Routes
  *************************/
 app.use(static)
+//Index route
+app.get("/", function(req, res){
+  res.render("index", {title: "Home"})
+})
 
 /* ***********************
  * Local Server Information
