@@ -4,3 +4,128 @@
 *:after {
   box-sizing: border-box;
 }
+
+/*Header Styling*/
+#top-header{
+  display: flex;
+  justify-content: space-between;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+main{
+  font-family: "Poppins", sans-serif;
+}
+
+.siteName a{
+  color: #222222;
+  font-size: 2.5rem;
+  text-decoration: none;
+}
+
+#tools a{
+  color: #222222;
+  text-decoration: none;
+}
+
+/*Navigation Styling*/
+nav{
+  background-color: #222222 ;
+  padding: 5px;
+}
+
+nav ul{
+  display: flex;
+  list-style-type : none;
+  justify-content: space-evenly;
+}
+
+nav ul li{
+  color: white;
+  font-size: large;
+}
+
+/*Hero styling*/
+.hero-sec{
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+
+.hero-sec article{
+  position: absolute;
+  top: 20px;
+  background-color: rgba(255, 255, 255, 0.5) ;
+  color: blue;
+  padding: 5px ;
+}
+
+button{
+  background-color: blue;
+  color: black;
+  padding: 5px;
+}
+
+/*Reviews Styling*/
+.reviews ul li{
+  margin: 10px;
+  font-size: large;
+}
+
+/*Upgrades Styling*/
+figure img{
+  background-color: blue;
+  padding: 20px;
+  border: 1px black solid;
+}
+
+figcaption{
+  color: blue;
+  text-decoration: underline;
+}
+
+.upgrade-opt{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+/* Large Screen */
+@media screen and (min-width : 1025px){
+  body{
+    max-width: 1085px;
+    border: 5px blue solid;
+    padding: 10px;
+    margin: 0 auto;
+  }
+
+  .hero-sec{
+    text-align: center;
+  }
+
+
+  .hero-sec article{
+    left: 250px;
+  }
+
+  #main{
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  .upgrades{
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+
+  .reviews ul li{
+    padding: 15px;
+  }
+
+  .reviews{
+    grid-column: 2/3;
+  }
+  
+}
