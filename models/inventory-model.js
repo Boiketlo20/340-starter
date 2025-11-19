@@ -1,13 +1,13 @@
-const pool = require("../database/")
+const pool = require("../database/") //imports the database connection file from the database folder
 
 /**********************************
  * Get all classification data
  **********************************/
-async function getClassifications(){
-    return await pool.query("SELECT * FROM public.classification ORDER BY classification_name") 
+async function getClassifications(){ 
+    return await pool.query("SELECT * FROM public.classification ORDER BY classification_name") //will return the result of the SQL query, which will be sent to the database server using a pool connection
 }
 
-module.exports = {getClassifications}
+module.exports = {getClassifications} //Exports the function for use elsewhere
 
 /***************************************************
  * Get all inventory items and classification_name by classification_id

@@ -1,4 +1,4 @@
-const invModel = require("../models/inventory-model")
+const invModel = require("../models/inventory-model") //requires the iventory-model file so it can be used to get data from the database
 const Util = {}
 
 /************************************
