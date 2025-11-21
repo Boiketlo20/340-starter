@@ -39,7 +39,7 @@ nav ul{
   justify-content: space-evenly;
 }
 
-nav ul li{
+ul li a{
   color: #FFCCD5;
   font-size: large;
 }
@@ -122,5 +122,48 @@ figure img{
   .reviews{
     grid-column: 2/3;
   }
+
+  /* Classification */
+  #inv-display{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+  }
+
+   #inv-display img{
+    width: 100%;
+   }
+
+  #inv-display li{
+    border: 2px solid #c9184a;
+    border-radius: 8px;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .hide{
+    display: none;
+  }
+
+  /*Inventory item*/
+  #invItem-display{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  
+
+
   
 }
+
+/* Classification Styling */
+li{
+  list-style-type : none;
+}
+
+#inv-display li a{
+  color: black;
+}
+

@@ -10,7 +10,7 @@ Util.getNav = async function (req, res, next) {
     list += '<li><a href="/" title="Hope page">Home</a></li>'
     data.rows.forEach((row => {
         list+= "<li>"
-        list+= '<a href="inv/type/' + row.classification_id +
+        list+= '<a href="/inv/type/' + row.classification_id +
         '" title="See our inventory of ' + row.classification_name +
         ' vehicles">' + row.classification_name + "</a>"
         list += "</li>"
@@ -29,21 +29,21 @@ Util.buildByClassificationGrid = async function (data) {
         grid = '<ul id="inv-display">'
         data.forEach(vehicle => {
             grid += '<li>'
-            grid+= '<a href="../../inv/detail/' + vehicle.inv_id
+            grid+= '<a href="../../inv/item/' + vehicle.inv_id
             + '" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model
             + 'details"><img src="' + vehicle.inv_thumbnail
             + '"alt= "Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model
             + ' on CSE Motors" /></a>'
             grid += '<div class="namePrice">'
-            grid += '<hr />'
             grid += '<h2>'
-            grid += '<a href="../../inv/detail/' + vehicle.inv_id + '" title="View'
+            grid += '<a href="../../inv/item/' + vehicle.inv_id + '" title="View'
             + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'
             + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
             grid += '</h2>'
             grid += '<span>$'
             + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
             grid += '</div>'
+            grid += '<hr class="hide" />'
             grid += '</li>'
         })
         grid += '</ul>'
@@ -51,6 +51,37 @@ Util.buildByClassificationGrid = async function (data) {
         grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
     }
     return grid
+}
+
+/*****************************************
+ * Build the inventory items HTML 
+ ******************************************/
+Util.buildByIventoryGrid = async function (data) {
+    let grid = `
+        <div id="invItem-display">
+            <img src="${data[0].inv_image}" alt="Image of ${data[0].inv_make} ${data.inv_model} on CSE Motors">
+            <section class="details">
+                <h2>${data[0].inv_make} ${data[0].inv_model} Details</h2>
+                <div class="namePrice">
+                    <hr />
+                    <span>Price: $${new Intl.NumberFormat('en-US').format(data[0].inv_price)}</span>
+                </div>
+                <div class="desc">
+                    <hr />
+                    <span>Description: ${data[0].inv_description}</span>
+                </div>
+                <div class="color">
+                    <hr />
+                    <span>Color: ${data[0].inv_color}</span>
+                </div>
+                <div class="miles">
+                    <hr />
+                    <span>Miles: ${new Intl.NumberFormat('en-US').format(data[0].inv_miles)}</span>
+                </div>
+            </section>
+
+        </div>`;
+    return grid;
 }
 
 /* ****************************************
