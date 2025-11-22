@@ -5,6 +5,8 @@
 /* ***********************
  * Require Statements
  *************************/
+const session = require("express-session")
+const pool = require('./database/')
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts") //imports the package so we can use it
 const env = require("dotenv").config()
@@ -14,6 +16,26 @@ const baseController = require("./controllers/baseController")
 const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities/")
 
+/****************************************
+ * Middleware
+ ****************************************/
+app.use(session({ //invokes app.use() function and indicates the session is to be applied
+  store: new (require('connect-pg-simple')(session))({ //store refers to where the session data will be stores
+    createTableIfMissing : true, //tells the session to create a 'session' table in the database if it does not already exist
+    pool, //uses database connection pool to interact with database server
+  }),
+  secret: process.env.SESSION_SECRET, //indicates a 'secret' name - value pair that will be used to protect the session
+  resave: true, //because we are using 'flash' messages we need to resave the session table after each message, so it must be set to true
+  saveUninitialized: true, //setting is important to the creation process when the session is first created
+  name: 'sessionId', //name we are assigning to the unique 'id' that will be created for each session
+}))
+
+// Express Messages Middleware
+app.use(require('connect-flash')()) //requires connect-flash package
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res) //'express-messages' package is required as a function. The function accepts the request and response objects as parameters. The functionality of this function is assigned to the response object using the "locals" option and a name of the "mesaages". This allows any message to be stores into the response, making it available in a view
+  next() //cals the next90 function, passing control to the next piece of middleware in the application
+})
 
 /* ***********************
  * View Engine and Templates
