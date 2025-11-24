@@ -187,7 +187,8 @@ label {
 }
 
 input[type=text],
-input[type=email]
+input[type=email],
+input[type=password]
 {
   display: block;
   margin: .1rem 0 1rem 0;
@@ -200,6 +201,15 @@ input[type=email]
   color: #3D405B;
   width: 300px;
 }
+
+input:required:valid {
+  border-left-color: green;
+}
+
+input:required:invalid, input:focus:invalid {
+  border-left-color: #d70000;
+}
+
 
 input[type=submit] {
   border: none;
