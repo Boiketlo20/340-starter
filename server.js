@@ -7,6 +7,7 @@
  *************************/
 const session = require("express-session")
 const pool = require('./database/')
+const bodyParser = require("body-parser")
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts") //imports the package so we can use it
 const env = require("dotenv").config()
@@ -30,6 +31,10 @@ app.use(session({ //invokes app.use() function and indicates the session is to b
   saveUninitialized: true, //setting is important to the creation process when the session is first created
   name: 'sessionId', //name we are assigning to the unique 'id' that will be created for each session
 }))
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 
 // Express Messages Middleware
 app.use(require('connect-flash')()) //requires connect-flash package
