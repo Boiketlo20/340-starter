@@ -84,6 +84,29 @@ Util.buildByIventoryGrid = async function (data) {
     return grid;
 }
 
+/*****************************************
+ * Build the login view 
+ ******************************************/
+Util.buildLoginView = async function () {
+    let form =
+    `<form>
+        <label for="account_email"> Email: </label>
+        <input type="text" id="account_email" name="account_email">
+
+        <label for="account_password"> Password: </label>
+        <input type="text" id="account_password" name="account_password">
+
+        <input type="submit" value="Login">
+
+        <div class="sign-up"> 
+            <a>No account? <a href="../../inv/item/" >Sign-up</a></a> 
+        </div>
+        
+        
+    </form>`
+    return form;
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

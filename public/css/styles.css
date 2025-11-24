@@ -167,3 +167,50 @@ li{
   color: black;
 }
 
+/* Form Styling */
+form {
+  margin: 1rem 2%;
+  background-color: #3D405B;
+  padding: 20px;
+  border-radius: 5px;
+  color: white;
+  width: fit-content;
+  height: auto;
+  text-align: center;
+}
+
+label {
+  display: block;
+  font-size: .8rem;
+  padding-top: .2rem;
+  text-align: start;
+}
+
+input[type=text],
+input[type=email]
+{
+  display: block;
+  margin: .1rem 0 1rem 0;
+  padding: .3rem;
+  border: 1px solid #999;
+  border-radius: 4px;
+  border-left-width: 5px;
+  border-left-color: #555;
+  font-size: 1rem;
+  color: #3D405B;
+  width: 300px;
+}
+
+input[type=submit] {
+  border: none;
+  background-color: white ;
+  color:#3D405B;
+  border-radius: 1rem;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.sign-up{
+  text-align: center;
+  color: white;
+}
