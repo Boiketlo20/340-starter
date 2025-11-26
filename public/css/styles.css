@@ -188,7 +188,9 @@ label {
 
 input[type=text],
 input[type=email],
-input[type=password]
+input[type=password],
+input[type=number],
+select
 {
   display: block;
   margin: .1rem 0 1rem 0;
@@ -223,4 +225,9 @@ input[type=submit] {
 .sign-up{
   text-align: center;
   color: white;
+}
+
+/* Vehicle Management Styling */
+.links{
+  display: grid;
 }

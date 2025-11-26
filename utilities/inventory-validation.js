@@ -1,0 +1,105 @@
+const utilities = require(".")
+  const { body, validationResult } = require("express-validator")
+  const validate = {}
+
+/*  **********************************
+  *  Adding a vehicle Validation Rules
+  * ********************************* */
+  validate.inventoryRules = () => {
+    return [
+      // make name is required and must be string
+      body("inv_make")
+        .trim()
+        .notEmpty()
+        .isLength({ min: 3 })
+        .withMessage("Please provide a vehicle make name."), // on error this message is sent.
+  
+      // model name is required and must be string
+      body("inv_model")
+        .trim()
+        .notEmpty()
+        .isLength({ min: 3 })
+        .withMessage("Please provide a vehicle model name."), // on error this message is sent.
+  
+      // description is required and cannot already exist in the DB
+      body("inv_description")
+      .trim()
+      .notEmpty()
+      .withMessage("A valid description is required."),
+
+      // image path is required and cannot already exist in the DB
+      body("inv_image")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("A valid image URL is required."),
+
+      // thumbnail path is required and cannot already exist in the DB
+      body("inv_thumbnail")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("Thumbnail URL is required."),
+
+      // price is required and cannot already exist in the DB
+      body("inv_price")
+      .trim()
+      .notEmpty()
+      .isFloat()
+      .withMessage("Price must be a valid number(integer or decimal)"),
+
+      // year is required and cannot already exist in the DB
+      body("inv_year")
+      .trim()
+      .notEmpty()
+      .isInt({ min: 1000, max: 9999 })
+      .withMessage("Year must be a 4-digit number"),
+
+      // miles is required and cannot already exist in the DB
+      body("inv_miles")
+      .trim()
+      .notEmpty()
+      .isInt({ min: 0 })
+      .withMessage("Miles must contain digits only"),
+
+      // color is required and cannot already exist in the DB
+      body("inv_color")
+      .trim()
+      .escape()
+      .notEmpty()
+      .withMessage("A valid colour is required."),
+    ]
+  }
+
+
+/* ******************************
+ * Check data and return errors or continue to adding vehicle
+ * ***************************** */
+validate.checkInventoryData = async (req, res, next) => {
+  const { inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+  const classSelect = await utilities.classificationOptions()
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    res.render("inventory/add-inventory", {
+      errors,
+      title: "Add New Vehicle",
+      nav,
+      classSelect,
+      inv_make,
+      inv_model,
+      inv_description,
+      inv_image,
+      inv_thumbnail,
+      inv_price,
+      inv_year,
+      inv_miles,
+      inv_color
+    })
+    return
+  }
+  next()
+}
+
+module.exports = validate
