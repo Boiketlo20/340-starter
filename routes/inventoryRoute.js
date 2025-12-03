@@ -27,4 +27,7 @@ router.get("/addVehicle", utilities.handleErrors(invController.buildAddInventory
 //post to the router
 router.post("/addVehicle", inventoryValidate.inventoryRules(), inventoryValidate.checkInventoryData, utilities.handleErrors(invController.addInventory))
 
+// editing inventory route
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
 module.exports = router;
