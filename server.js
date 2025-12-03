@@ -8,6 +8,7 @@
 const session = require("express-session")
 const pool = require('./database/')
 const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts") //imports the package so we can use it
 const env = require("dotenv").config()
@@ -35,6 +36,8 @@ app.use(session({ //invokes app.use() function and indicates the session is to b
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
 
 // Express Messages Middleware
 app.use(require('connect-flash')()) //requires connect-flash package
