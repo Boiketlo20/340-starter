@@ -13,8 +13,9 @@
 <% } %>
 <form id="updateForm" action="/inv/update" method="post" >
     <span>ALL FIELDS ARE REQUIRED</span>
-    <label for="classification_name">Classification</label>
-    <%- classSelect %>
+    <label for="classificationList">Classification</label>
+    <%- classificationList %>
+    <input type="hidden" name="classification_id" value="<%= classification_id %>">
 
     <label for="inv_make">Make</label>
     <input type="text" id="inv_make" name="inv_make" value="<%= inv_make %>" required placeholder="Min of 3 characters">
