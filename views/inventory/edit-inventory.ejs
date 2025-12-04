@@ -11,7 +11,7 @@
 <%  }) %>
  </ul>
 <% } %>
-<form action="/inv/update" method="post" >
+<form id="updateForm" action="/inv/update" method="post" >
     <span>ALL FIELDS ARE REQUIRED</span>
     <label for="classification_name">Classification</label>
     <%- classSelect %>
@@ -23,7 +23,7 @@
     <input type="text" id="inv_model" name="inv_model" value="<%= inv_model %>" required placeholder="Min of 3 characters">
 
     <label for="inv_description">Description</label>
-    <textarea id="inv_description" name="inv_description" cols="45" rows="5" value="<%= inv_description %>" required></textarea>
+    <textarea id="inv_description" name="inv_description" cols="45" rows="5" value="<%=inv_description %>" required></textarea>
 
     <label for="inv_image">Image Path</label>
     <input type="text" id="inv_image" name="inv_image"  value="<%= inv_image %>" required placeholder="/images/vehicle/no-image.png">
@@ -43,8 +43,11 @@
     <label for="inv_color">Colour</label>
     <input type="text" id="inv_color" name="inv_color" value="<%= inv_color %>" required>
 
-    <input type="submit" name="submit" value="Update Vehicle">
+    <input type="submit" name="submit" value="Update Vehicle" disabled>
 
     <input type="hidden" name="inv_id"
     <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
 </form>
+
+<noscript>JavaScript must be enabled to use this page.</noscript>
+<script src="/js/inv-update.js"></script>

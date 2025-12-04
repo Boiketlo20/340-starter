@@ -33,4 +33,7 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
 //Editing inventory route
 router.get("/edit/:inventoryId", utilities.handleErrors(invController.buildEditInventory))
 
+//processing edit inventory
+router.post("/update/", inventoryValidate.inventoryRules(), inventoryValidate.checkUpdateData, utilities.handleErrors(invController.updateInventory))//Create function
+
 module.exports = router;
