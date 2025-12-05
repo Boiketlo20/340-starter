@@ -31,14 +31,12 @@ const invModel = require("../models/inventory-model")
       // image path is required and cannot already exist in the DB
       body("inv_image")
       .trim()
-      .escape()
       .notEmpty()
       .withMessage("A valid image URL is required."),
 
       // thumbnail path is required and cannot already exist in the DB
       body("inv_thumbnail")
       .trim()
-      .escape()
       .notEmpty()
       .withMessage("Thumbnail URL is required."),
 
@@ -66,7 +64,6 @@ const invModel = require("../models/inventory-model")
       // color is required and cannot already exist in the DB
       body("inv_color")
       .trim()
-      .escape()
       .notEmpty()
       .withMessage("A valid colour is required."),
     ]
