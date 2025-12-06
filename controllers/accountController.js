@@ -120,11 +120,102 @@ async function accountLogin(req, res) {
 * *************************************** */
 async function buildAccountManagement(req, res, next) {
   let nav = await utilities.getNav()
+  const accountData = res.locals.accountData
   res.render("account/account-management", {
     title: "Account Management",
     nav,
+    accountData,
     errors: null
   })
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement}
+/* ****************************************
+*  Deliver Update Account View
+* *************************************** */
+async function buildUpdateAccount(req, res, next) {
+  let nav = await utilities.getNav()
+  const account_id = req.params.accountId
+  const accountData = await accountModel.getAccountById(account_id)
+  res.render("account/update-account", {
+    title: "Update Account Information",
+    nav,
+    accountData,
+    errors: null
+  })
+}
+
+/* ****************************************
+* Processing Update Account
+* *************************************** */
+async function updateAccount(req, res, next) {
+  const {
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email
+  } = req.body
+
+  const update = await accountModel.updateAccount(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email
+  )
+
+  if (update) {
+    req.flash("notice", `The account information was successfully updated.`)
+    return res.redirect("/account/")
+  }
+  req.flash("notice", "Sorry, the update failed.")
+  res.redirect(`/account/update/${account_id}`)
+}
+
+/* ****************************************
+*  Processing Update Password
+* *************************************** */
+async function updatePassword(req, res, next) {
+  const {
+    account_id,
+    account_password
+  } = req.body
+
+  const hashedPassword = await bcrypt.hash(account_password, 10)
+  const update = await accountModel.updatePassword(account_id, hashedPassword)
+
+
+  if (update) {
+    req.flash("notice", `The password was successfully updated.`)
+    return res.redirect("/account/")
+  }
+  req.flash("notice", "Sorry, the update failed.")
+  res.redirect(`/account/update/${account_id}`)
+}
+
+/* ****************************************
+ *  Logout Process
+ * ************************************ */
+async function logout (req, res, next) {
+  try {
+    // Clear the JWT cookie
+    res.clearCookie('jwt'); // or whatever name you used for your token cookie
+    
+    // If using sessions, destroy the session
+    if (req.session) {
+      req.session.destroy(err => {
+        if (err) {
+          console.error('Error destroying session:', err);
+        }
+      });
+    }
+    
+    // Redirect to home page
+    res.redirect('/');
+  } catch (error) {
+    console.error('Logout error:', error);
+    res.redirect('/');
+  }
+};
+
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin,
+  buildAccountManagement, buildUpdateAccount,
+  updateAccount, updatePassword, logout}

@@ -27,4 +27,14 @@ router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.b
 //Process Account Management
 //router.post("/")
 
+//Route to build update account
+router.get("/update/:accountId", utilities.handleErrors(accountController.buildUpdateAccount))
+
+//Route to updating account
+router.post("/update", regValidate.UpdateAccountRules(), regValidate.checkUpdateData, utilities.handleErrors(accountController.updateAccount))
+
+//Route to updating password
+router.post("/updating-password", regValidate.UpdatePasswordRules(), regValidate.checkPasswordData, utilities.handleErrors(accountController.updatePassword))
+
+router.get("/logout", accountController.logout);
 module.exports = router;

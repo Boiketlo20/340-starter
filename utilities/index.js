@@ -139,6 +139,24 @@ Util.checkJWTToken = (req, res, next) => {
 }
 
 /* ****************************************
+* Middleware to check account type
+**************************************** */
+Util.checkAccountType = (req, res, next) => {
+    const accountData = res.locals.accountData
+
+    if (!accountData){
+        return res.redirect("/account/login")
+    }
+
+    if (accountData.account_type == "Client") {
+        req.flash("Sorry, Employees or Admins only")
+        return res.redirect("/account/login")
+    }
+
+    next()
+}
+
+/* ****************************************
  *  Check Login
  * ************************************ */
  Util.checkLogin = (req, res, next) => {

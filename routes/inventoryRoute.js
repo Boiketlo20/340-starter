@@ -16,30 +16,30 @@ router.get("/item/:inventoryId", invController.buildInventoryItem);
 router.get("/", invController.buildManagement);
 
 //Route to adding classification
-router.get("/addClassification", invController.addClassification);
+router.get("/addClassification", utilities.checkAccountType, utilities.handleErrors(invController.addClassification));
 
 //post to the router
-router.post('/addClassification', regValidate.classificationRules(), regValidate.checkClassData, utilities.handleErrors(invController.addingClassification))
+router.post('/addClassification',  utilities.checkAccountType, regValidate.classificationRules(), regValidate.checkClassData, utilities.handleErrors(invController.addingClassification))
 
 //Route to adding vehicle in inventory
-router.get("/addVehicle", utilities.handleErrors(invController.buildAddInventory));
+router.get("/addVehicle", utilities.checkAccountType, utilities.handleErrors(invController.buildAddInventory));
 
 //post to the router
-router.post("/addVehicle", inventoryValidate.inventoryRules(), inventoryValidate.checkInventoryData, utilities.handleErrors(invController.addInventory))
+router.post("/addVehicle", utilities.checkAccountType, inventoryValidate.inventoryRules(), inventoryValidate.checkInventoryData, utilities.handleErrors(invController.addInventory))
 
 // displaying inventory in table route
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 //Editing inventory route
-router.get("/edit/:inventoryId", utilities.handleErrors(invController.buildEditInventory))
+router.get("/edit/:inventoryId", utilities.checkAccountType, utilities.handleErrors(invController.buildEditInventory))
 
 //processing edit inventory
-router.post("/update/", inventoryValidate.inventoryRules(), inventoryValidate.checkUpdateData, utilities.handleErrors(invController.updateInventory))
+router.post("/update/", utilities.checkAccountType, inventoryValidate.inventoryRules(), inventoryValidate.checkUpdateData, utilities.handleErrors(invController.updateInventory))
 
 //Delete route
-router.get("/delete/:inventoryId", utilities.handleErrors(invController.buildDelete));
+router.get("/delete/:inventoryId", utilities.checkAccountType, utilities.handleErrors(invController.buildDelete));
 
 //Processing delete route
-router.post("/remove/", utilities.handleErrors(invController.deleteInventory));
+router.post("/remove/", utilities.checkAccountType, utilities.handleErrors(invController.deleteInventory));
 
 module.exports = router;
