@@ -163,6 +163,23 @@ async function updateAccount(req, res, next) {
   )
 
   if (update) {
+    // 1. Get updated data from database
+    const refreshedAccount = await accountModel.getAccountById(account_id)
+    delete refreshedAccount.account_password
+
+    // 2. Build NEW JWT with fresh data
+    const accessToken = jwt.sign(
+      refreshedAccount,
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 3600 * 1000 }
+    )
+
+    // 3. Update cookie
+    if (process.env.NODE_ENV === 'development') {
+      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+    } else {
+      res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+    }
     req.flash("notice", `The account information was successfully updated.`)
     return res.redirect("/account/")
   }
@@ -184,6 +201,21 @@ async function updatePassword(req, res, next) {
 
 
   if (update) {
+
+    const refreshedAccount = await accountModel.getAccountById(account_id)
+    delete refreshedAccount.account_password
+
+    const accessToken = jwt.sign(
+      refreshedAccount,
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: 3600 * 1000 }
+    )
+
+    res.cookie("jwt", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== 'development',
+      maxAge: 3600 * 1000
+    })
     req.flash("notice", `The password was successfully updated.`)
     return res.redirect("/account/")
   }
@@ -197,9 +229,9 @@ async function updatePassword(req, res, next) {
 async function logout (req, res, next) {
   try {
     // Clear the JWT cookie
-    res.clearCookie('jwt'); // or whatever name you used for your token cookie
+    res.clearCookie('jwt');
     
-    // If using sessions, destroy the session
+    n
     if (req.session) {
       req.session.destroy(err => {
         if (err) {
