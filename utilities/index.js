@@ -168,4 +168,41 @@ Util.checkAccountType = (req, res, next) => {
   }
  }
 
+/*****************************************
+ * Build the review detail HTML 
+ ******************************************/
+Util.buildReviewDetail = async function (data) {
+    let display = "<h2>Customer Reviews</h2>";
+    display += `<div id="review-display">`;
+
+    data.forEach((review) => {
+        display += `
+            <p>${review.account_firstname[0]}${review.account_lastname} wrote on ${(review.review_date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</p>
+            <p>${review.review_text}</p>
+            <hr>
+        `;
+    });
+
+    display += `</div>`;
+    return display;
+}
+
+Util.buildReviewTable = async function (data) {
+    let dataTable = '<h2>My Reviews</h2>';
+ // Set up the table labels 
+ dataTable += '<table id="ReviewDisplay">';  
+ // Set up the table body 
+ dataTable += '<tbody>'; 
+ // Iterate over all vehicles in the array and put each in a row 
+ data.forEach((element) => { 
+  console.log(element.inv_id + ", " + element.inv_model); 
+  dataTable += `<tr><td> Reviewed the ${element.inv_year} ${element.inv_make} ${element.inv_model} ${(element.review_date).toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})}</td>`; 
+  dataTable += `<td><a href='/account/review/edit/${element.review_id}' title='Click to update'>Modify</a></td>`; 
+  dataTable += `<td><a href='/account/review/delete/${element.review_id}' title='Click to delete'>Delete</a></td></tr>`; 
+ }) 
+ dataTable += '</tbody>'; 
+ dataTable += '</table>';
+ return dataTable;
+}
+
 module.exports = Util

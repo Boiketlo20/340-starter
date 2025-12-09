@@ -260,3 +260,23 @@ td:last-of-type {
 tbody > tr:nth-of-type(even) {
     background-color: lightpink;
 }
+
+/*Review form*/
+.review{
+  display: grid;
+  justify-self: center;
+  gap: 5px;
+  justify-content: center;
+}
+
+input[type=submit] {
+  border: none;
+  background-color: white ;
+  color:#3D405B;
+  border-radius: 1rem;
+  padding: 10px;
+  font-size: 1rem;
+  width: 110px; /* Example: Set a specific width */
+  height: 40px; 
+  align-items: center;
+}

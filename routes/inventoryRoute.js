@@ -42,4 +42,7 @@ router.get("/delete/:inventoryId", utilities.checkAccountType, utilities.handleE
 //Processing delete route
 router.post("/remove/", utilities.checkAccountType, utilities.handleErrors(invController.deleteInventory));
 
+//Route that to process adding review
+router.post("/review", inventoryValidate.ReviewRules(), utilities.handleErrors(invController.addReview))
+
 module.exports = router;

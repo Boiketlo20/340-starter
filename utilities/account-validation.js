@@ -220,7 +220,39 @@ validate.checkPasswordData = async (req, res, next) => {
     });
     return;
   }
-  
   next();
 }
+
+/*  **********************************
+  * Update Review Validation Rules
+  * ********************************* */
+validate.updateReviewRules = () => {
+  return [
+    body("review_text")
+      .trim()
+      .notEmpty()
+      .isLength({ min: 10 })
+      .withMessage("Review must be at least 10 characters long."),
+  ]
+}
+
+
+validate.checkUpdateReview = async (req, res, next) => {
+  const { review_text, review_id } = req.body
+  const errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    return res.render("reviews/edit-review", {
+      title: "Edit Review",
+      nav,
+      errors,
+      review_text,
+      review_id
+    })
+  }
+
+  next()
+}
+
 module.exports = validate

@@ -121,10 +121,13 @@ async function accountLogin(req, res) {
 async function buildAccountManagement(req, res, next) {
   let nav = await utilities.getNav()
   const accountData = res.locals.accountData
+  const reviews = await accountModel.getReviewsByAccId(accountData.account_id)
+  const reviewsHTML = await utilities.buildReviewTable(reviews)
   res.render("account/account-management", {
     title: "Account Management",
     nav,
     accountData,
+    reviewsHTML,
     errors: null
   })
 }
@@ -246,8 +249,82 @@ async function logout (req, res, next) {
     console.error('Logout error:', error);
     res.redirect('/');
   }
-};
+}
+
+/**************************************
+ * Build Edit Review view
+ ****************************************/
+async function buildEditReview (req, res, next) {
+  let nav = await utilities.getNav()
+  const reviewId = req.params.reviewId
+  const review = await accountModel.getReviewsById(reviewId)
+
+  const itemName = `${review.inv_year} ${review.inv_make} ${review.inv_model}`
+
+  res.render("account/edit-review", {
+    title: "Edit " + itemName + " Review",
+    nav, 
+    review,
+    errors: null,
+  })
+}
+
+/* ***************************
+ *  Update Inventory Data
+ * ************************** */
+async function updateReview (req, res, next) {
+  let nav = await utilities.getNav()
+  const {
+    review_id,
+    review_text
+  } = req.body
+
+  const updateResult = await accountModel.updateReview(
+    review_id,
+    review_text
+  )
+
+  if (updateResult) {
+    req.flash("notice", `The review was successfully updated.`)
+    return res.redirect("/account/")
+  }
+
+  req.flash("notice", "Sorry, the update failed.")
+  res.redirect(`/account/review/edit/${review_id}`)
+}
+
+/**************************************
+ * Build delete inventory item view
+ ****************************************/
+async function buildDeleteReview (req, res, next) {
+  let nav = await utilities.getNav()
+  const reviewId = req.params.reviewId
+  const review = await accountModel.getReviewsById(reviewId)
+  const itemName = `${review.inv_year} ${review.inv_make} ${review.inv_model}`
+  res.render("account/delete-review", {
+    title: "Delete " + itemName +  " Review",
+    nav,
+    review,
+    errors: null,
+  })
+}
+
+/* ***************************
+ *  Delete the Inventory Data
+ * ************************** */
+async function deleteReview (req, res, next) {
+  const { review_id } = req.body
+  const deleteResult = await accountModel.deleteReview(review_id)
+ 
+  if (deleteResult) {
+    req.flash("notice", `Review was successfully deleted.`)
+    return res.redirect("/account/")
+  }
+  req.flash("notice", "Sorry, the delete failed.")
+  return res.redirect(`/account/review/delete/${review_id}`) 
+}
 
 module.exports = { buildLogin, buildRegister, registerAccount, accountLogin,
   buildAccountManagement, buildUpdateAccount,
-  updateAccount, updatePassword, logout}
+  updateAccount, updatePassword, logout, buildEditReview, updateReview,
+  buildDeleteReview, deleteReview}

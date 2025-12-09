@@ -33,7 +33,9 @@ invCont.buildInventoryItem = async function (req, res, next) {
     const inv_id = req.params.inventoryId
     const data = await invModel.getInventoryByInv_id(inv_id)
     const grid = await utilities.buildByIventoryGrid(data)
+    const reviews = await invModel.getReviewsByInvId(inv_id)
     let nav = await utilities.getNav()
+    const reviewsHTML = await utilities.buildReviewDetail(reviews)
     const modelName = data[0].inv_model
     const modelYear = data[0].inv_year
     const modelMake = data[0].inv_make
@@ -41,6 +43,8 @@ invCont.buildInventoryItem = async function (req, res, next) {
         title: modelYear + ' ' + modelMake + ' ' + modelName ,
         nav,
         grid,
+        reviewsHTML,
+        item: data[0]
     })
 }
 
@@ -292,5 +296,27 @@ invCont.deleteInventory = async function (req, res, next) {
   return res.redirect(`/delete/${inv_id}`) 
 }
 
+/* ****************************************
+*  Process Adding Review 
+* *************************************** */
+invCont.addReview = async function (req, res) {
+  
+  const { review_text, inv_id, account_id } = req.body
+
+  const regResult = await invModel.newReview(
+    review_text, inv_id, account_id
+  )
+
+  if (regResult) {
+    req.flash(
+      "notice",
+      `The review was successfully added.`
+    )
+    return res.redirect(`/inv/item/${inv_id}`)
+  } else {
+    req.flash("notice", "Adding review failed.")
+    return res.redirect(`/inv/item/${inv_id}`)
+  }
+}
 
 module.exports = invCont

@@ -133,4 +133,17 @@ validate.checkUpdateData = async (req, res, next) => {
   next()
 }
 
+/*  **********************************
+  * Update Review Validation Rules
+  * ********************************* */
+validate.ReviewRules = () => {
+  return [
+    body("review_text")
+      .trim()
+      .notEmpty()
+      .isLength({ min: 10 })
+      .withMessage("Review must be at least 10 characters long."),
+  ]
+}
+
 module.exports = validate
